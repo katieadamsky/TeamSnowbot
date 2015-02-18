@@ -25,8 +25,8 @@ int main(void)
 
 int i=0, m;
 //set initial servo angles
-servo.SetMin(500);
-servo.SetMax(2500);
+servo.SetMin(522);
+servo.SetMax(2279);
 
     //wait for middle button to be pressed
 
@@ -38,30 +38,24 @@ servo.SetMax(2500);
 
       Sleep(500);
 
-      servo.SetDegree(500);
+      servo.SetDegree(522);
 
    while( i==0 )
 
     {
 
+           d=cds.Value(); //read in a second value from the cds cell
 
-
-       v=cds.Value(); //read in value from cds cell
-
-       Sleep(500);
-
-       d=cds.Value(); //read in a second value from the cds cell
-
-           motorvalue=(d-v)*689.66; //determine the change and multiply it by a scaling factor
-           LCD.Write(motorvalue);
+           motorvalue=d*60; //determine the change and multiply it by a scaling factor
+           LCD.WriteLine(motorvalue);
 
 
 
-Sleep(500);
+Sleep(5);
 
-servo.SetDegree(500+motorvalue);
+servo.SetDegree(motorvalue);
 
-Sleep(1000);
+Sleep(10);
 
 //determine if the program should continue running
 
@@ -72,7 +66,7 @@ if (button.MiddlePressed())
 {
 
 i=1; //if middle button is pressed, program will stop
-servo.SetDegree(500);
+servo.SetDegree(522);
 
 }
 
@@ -81,7 +75,7 @@ else if (m==0)
 {
 
 i=1; //if microswitch is pressed, program will also stop
-servo.SetDegree(500);
+servo.SetDegree(522);
 }
 
     }//end while loop
