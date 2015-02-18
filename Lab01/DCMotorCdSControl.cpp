@@ -63,7 +63,7 @@ if (d>2.8)
 
 {
 
-motor.SetPercent(-100); //IS THIS FULL POWER IN THE OPPOSITE DIRECTION OR STOPPED????? WE WANT IT OPPOSITE DIRECTION
+motor.SetPercent(-100); 
 
 }
 Sleep(1000);
