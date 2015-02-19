@@ -1,3 +1,7 @@
+/*DC Motor Control with a CdS Cell
+Written by Katie Adamsky
+2/11/15*/
+
 #include <FEHLCD.h>
 
 #include <FEHIO.h>
