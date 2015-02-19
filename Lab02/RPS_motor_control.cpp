@@ -30,7 +30,7 @@ void check_x_plus(float x_coordinate) //using RPS while robot is in the +x direc
         }
         else if(RPS.X() < x_coordinate)
         {
-            //pulse the motors for a short duration in the correct direction
+            //pulse the motors for a short duration in the correct  direction
             left_motor.SetPercent(-75);
             right_motor.SetPercent(75);
             Sleep(50);
