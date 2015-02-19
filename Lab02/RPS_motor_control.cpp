@@ -98,10 +98,44 @@ void check_y_plus(float y_coordinate) //using RPS while robot is in the +y direc
 
 void check_heading(float heading) //using RPS
 {
-    //you will need to fill out this one yourself and take into account
-    //the edge conditions (when you want the robot to go to 0 degrees
-    //or close to 0 degrees)
-    
+    float actual_heading;//find the actual heading
+    while ((actual_heading-heading)>2 || (actual_heading-heading)<-2 ||(actual_heading-heading)>358 || (actual_heading-heading)<-358)
+    {
+    actual_heading=RPS.Heading();
+    if ((actual_heading-heading)<180)//compare desired heading to current heading
+    {
+        left_motor.SetPercent(75);
+        right_motor.SetPercent(-75);
+        Sleep(50);
+        left_motor.SetPercent(0);
+        right_motor.SetPercent(0);
+    }
+    else if ((actual_heading-heading)>-180)
+    {
+        left_motor.SetPercent(-75);
+        right_motor.SetPercent(75);
+        Sleep(50);
+        left_motor.SetPercent(0);
+        right_motor.SetPercent(0);
+    }
+    if ((actual_heading-heading)>180) 
+    {
+        left_motor.SetPercent(-75);
+        right_motor.SetPercent(75);
+        Sleep(50);
+        left_motor.SetPercent(0);
+        right_motor.SetPercent(0);
+    }
+    else if ((actual_heading-heading)<-180)
+    {
+        left_motor.SetPercent(75);
+        right_motor.SetPercent(-75);
+        Sleep(50);
+        left_motor.SetPercent(0);
+        right_motor.SetPercent(0);
+    }
+    Sleep(10);
+    }//end while loop
 }
 
 void move_forward(int percent, int counts) //using encoders
