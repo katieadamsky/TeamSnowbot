@@ -1,3 +1,7 @@
+/*Rotary Encoder and RPS Control of Motors
+Written by Katie Adamsky 2/18/15
+RJF 8:00 Team B6*/
+
 #include <FEHLCD.h>
 #include <FEHIO.h>
 #include <FEHUtility.h>
