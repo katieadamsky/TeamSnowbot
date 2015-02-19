@@ -164,7 +164,12 @@ move_forward(75, 297.094);
 //face robot in correct direction
 check_heading(270);//FIGURE OUT WHICH DIRECTION MEANS WHAT
 //change to desired coordinate (18.99,31.000)
-check_x_plus(18.099);
 check_y_minus(31.000);
+turn_left(75, 95);
+check_heading(0);
+move_forward(75, 210.094);
+check_x_plus();//DONT FORGET TO ENTER X COORDINATE
+
+
 }
 
