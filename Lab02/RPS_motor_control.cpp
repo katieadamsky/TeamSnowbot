@@ -25,7 +25,7 @@ void check_x_plus(float x_coordinate) //using RPS while robot is in the +x direc
         if(RPS.X() > x_coordinate)
         {
             //pulse the motors for a short duration in the correct direction
-            left_motor.SetPercent(75);
+            left_motor.SetPercent(-75);
             right_motor.SetPercent(-75);
             Sleep(50);
             left_motor.SetPercent(0);
@@ -35,7 +35,7 @@ void check_x_plus(float x_coordinate) //using RPS while robot is in the +x direc
         else if(RPS.X() < x_coordinate)
         {
             //pulse the motors for a short duration in the correct  direction
-            left_motor.SetPercent(-75);
+            left_motor.SetPercent(75);
             right_motor.SetPercent(75);
             Sleep(50);
             left_motor.SetPercent(0);
@@ -52,8 +52,8 @@ void check_y_minus(float y_coordinate) //using RPS while robot is in the -y dire
         if(RPS.Y() > y_coordinate)
         {
             //pulse the motors for a short duration in the correct direction
-            left_motor.SetPercent(75);
-            right_motor.SetPercent(75);
+            left_motor.SetPercent(-75);
+            right_motor.SetPercent(-75);
             Sleep(50);
             left_motor.SetPercent(0);
             right_motor.SetPercent(0);
@@ -61,8 +61,8 @@ void check_y_minus(float y_coordinate) //using RPS while robot is in the -y dire
         else if(RPS.Y() < y_coordinate)
         {
             //pulse the motors for a short duration in the correct direction
-            left_motor.SetPercent(-75);
-            right_motor.SetPercent(-75);
+            left_motor.SetPercent(75);
+            right_motor.SetPercent(75);
             Sleep(50);
             left_motor.SetPercent(0);
             right_motor.SetPercent(0);
@@ -78,8 +78,8 @@ void check_y_plus(float y_coordinate) //using RPS while robot is in the +y direc
         if(RPS.Y() > y_coordinate)
         {
             //pulse the motors for a short duration in the correct direction
-            left_motor.SetPercent(-75);
-            right_motor.SetPercent(-75);
+            left_motor.SetPercent(75);
+            right_motor.SetPercent(75);
             Sleep(50);
             left_motor.SetPercent(0);
             right_motor.SetPercent(0);
@@ -87,8 +87,8 @@ void check_y_plus(float y_coordinate) //using RPS while robot is in the +y direc
         else if(RPS.Y() < y_coordinate)
         {
             //pulse the motors for a short duration in the correct direction
-            left_motor.SetPercent(75);
-            right_motor.SetPercent(75);
+            left_motor.SetPercent(-75);
+            right_motor.SetPercent(-75);
             Sleep(50);
             left_motor.SetPercent(0);
             right_motor.SetPercent(0);
@@ -127,6 +127,8 @@ int main(void)
 {
 //drive 14 inches down
 move_forward(75, 297.094);
+//face robot in correct direction
+check_heading(270);//FIGURE OUT WHICH DIRECTION MEANS WHAT
 //change to desired coordinate (18.99,31.000)
 check_x_plus(18.099);
 check_y_minus(31.000);
