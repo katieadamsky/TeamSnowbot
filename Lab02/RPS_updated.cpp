@@ -83,8 +83,8 @@ void check_y_plus(float y_coordinate) //using RPS while robot is in the +y direc
         if(RPS.Y() > y_coordinate)
         {
             //pulse the motors for a short duration in the correct direction
-            left_motor.SetPercent(75);
-            right_motor.SetPercent(75);
+            left_motor.SetPercent(-75);
+            right_motor.SetPercent(-75);
             Sleep(100);
             left_motor.Stop();
             right_motor.Stop();
@@ -92,8 +92,8 @@ void check_y_plus(float y_coordinate) //using RPS while robot is in the +y direc
         else if(RPS.Y() < y_coordinate)
         {
             //pulse the motors for a short duration in the correct direction
-            left_motor.SetPercent(-75);
-            right_motor.SetPercent(-75);
+            left_motor.SetPercent(75);
+            right_motor.SetPercent(75);
             Sleep(100);
             left_motor.Stop();
             right_motor.Stop();
@@ -226,13 +226,18 @@ check_heading(180.0);
 
 //robot should be at point B
 write_coordinates();//check that it is
-Sleep(500);
+Sleep(1500);
 turn_left(75, 95);
-Sleep(500);
+write_coordinates();
+Sleep(1500);
 check_heading(270.0);//make sure robot turned a full 90 degrees
+write_coordinates();
+Sleep(1500);
 move_forward(75, 211);
-Sleep(500);
+write_coordinates();
+Sleep(1500);
 check_x_plus(28.800);
+Sleep(1500);
 
 //should be at point C
 write_coordinates();//ensure robot is at point C
@@ -245,7 +250,7 @@ Sleep(1500);
 write_coordinates();
 move_forward(75,85);//move to point D
 Sleep(500);
-check_y_plus(22.300);//make sure robot is at correct y coordinate
+check_y_plus(23);//make sure robot is at correct y coordinate
 
 //robot should be at point D
 write_coordinates();//check coordinates for the final time
