@@ -71,12 +71,10 @@ int main(void)
     leftmotor.SetPercent(0);
     previous=totheright;
     }
-    else if (c<2 && r<2 && l<2)
+    else if (c<2 && r<2 && l<2)//no sensors can see the line
     {
       LCD.WriteLine("ERROR: TOO FAR FROM LINE.");
-      switch (previous){
-        case //THIS IS WHERE YOIU LEFT OFF LAST TIME
-      }
     }
+    Sleep(500);
   }
 }
