@@ -23,145 +23,6 @@ DigitalInputPin cds(FEHIO::P0_0); //CdS cell
 #define half_power 50
 
 float encode;
-float x, y, head;
-
-void check_x_plus(float x_coordinate) //using RPS while robot is in the +x direction
-{
-    //check whether the robot is within an acceptable range
-    while(RPS.X() < x_coordinate - 1 || RPS.X() > x_coordinate + 1)
-    {
-        Sleep(500);
-        if(RPS.X() > x_coordinate)
-        {
-            //pulse the motors for a short duration in the correct direction
-            left_motor.SetPercent(-75);
-            right_motor.SetPercent(-75);
-            Sleep(100);
-            left_motor.Stop();
-            right_motor.Stop();
-
-        }
-        else if(RPS.X() < x_coordinate)
-        {
-            //pulse the motors for a short duration in the correct  direction
-            left_motor.SetPercent(75);
-            right_motor.SetPercent(75);
-            Sleep(100);
-            left_motor.Stop();
-            right_motor.Stop();
-        }
-    }
-}//end check x plus function
-
-void check_y_minus(float y_coordinate) //using RPS while robot is in the -y direction
-{
-    y=RPS.Y();
-    //check whether the robot is within an acceptable range
-    while(y < y_coordinate - 1 || y > y_coordinate + 1)
-    {
-        Sleep(500);
-        y=RPS.Y();
-        if(y > y_coordinate)
-        {
-            //pulse the motors for a short duration in the correct direction
-            left_motor.SetPercent(75);
-            right_motor.SetPercent(75);
-            Sleep(100);
-            left_motor.Stop();
-            right_motor.Stop();
-        }
-        else if(y < y_coordinate)
-        {
-            //pulse the motors for a short duration in the correct direction
-            left_motor.SetPercent(-75);
-            right_motor.SetPercent(-75);
-            Sleep(100);
-            left_motor.Stop();
-            right_motor.Stop();
-        }
-    }
-}//end check y minus
-
-void check_y_plus(float y_coordinate) //using RPS while robot is in the +y direction
-{
-    //check whether the robot is within an acceptable range
-    while(RPS.Y() < y_coordinate - 1 || RPS.Y() > y_coordinate + 1)
-    {
-        Sleep(500);
-        if(RPS.Y() > y_coordinate)
-        {
-            //pulse the motors for a short duration in the correct direction
-            left_motor.SetPercent(-75);
-            right_motor.SetPercent(-75);
-            Sleep(100);
-            left_motor.Stop();
-            right_motor.Stop();
-        }
-        else if(RPS.Y() < y_coordinate)
-        {
-            //pulse the motors for a short duration in the correct direction
-            left_motor.SetPercent(75);
-            right_motor.SetPercent(75);
-            Sleep(100);
-            left_motor.Stop();
-            right_motor.Stop();
-        }
-    }
-}//end check y plus function
-
-void check_heading(float heading) //using RPS
-{
-    float actual_heading;//find the actual heading
-    actual_heading=RPS.Heading();
-    while ((actual_heading-heading)>2 || (actual_heading-heading)<-2 ||(actual_heading-heading)>358 || (actual_heading-heading)<-358)
-    {
-    actual_heading=RPS.Heading();
-    Sleep(100);
-    if (actual_heading>heading)//compare desired heading to current heading
-    {
-        left_motor.SetPercent(75);
-        right_motor.SetPercent(-75);
-        Sleep(100);
-        left_motor.Stop();
-        right_motor.Stop();
-    }
-    else if (actual_heading<heading)
-    {
-        left_motor.SetPercent(-75);
-        right_motor.SetPercent(75);
-        Sleep(100);
-        left_motor.Stop();
-        right_motor.Stop();
-    }
-    if (heading>358 || heading <2)
-    {
-        if ((actual_heading-heading)>300)
-        {
-            while ((actual_heading-heading)>358)
-            {
-            right_motor.SetPercent(75);
-            left_motor.SetPercent(-75);
-            Sleep(100);
-            right_motor.Stop();
-            left_motor.Stop();
-            }
-        }
-        else if ((actual_heading-heading)<-300)
-        {
-            while ((actual_heading-heading)>-358)
-            {
-            right_motor.SetPercent(-75);
-            left_motor.SetPercent(75);
-            Sleep(100);
-            right_motor.Stop();
-            left_motor.Stop();
-            }
-        }
-
-    }
-    Sleep(50);
-    }//end while loop
-}//end check heading function
 
 void move_forward(int percent, int distance) //using encoders
 {
@@ -221,9 +82,10 @@ void start_at_light(void)
     v=cds.Value();
     while (v>0.4)
     {
-        
+        v=cds.Value();
+        Sleep(10);
     }
-    Sleep(100);
+    Sleep(10);
 }
 
 int main(void)
