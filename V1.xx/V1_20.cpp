@@ -79,6 +79,27 @@ right_motor.Stop();
 left_motor.Stop();
 }//end turn left function
 
+void turn_right(int percent, int counts) //using encoders
+{
+//Reset encoder counts
+right_encoder.ResetCounts();
+left_encoder.ResetCounts();
+//Set both motors to desired percent
+right_motor.SetPercent(-percent);
+left_motor.SetPercent(percent);
+//While the average of the left and right encoder are less than counts,
+//keep running motors
+
+        while ((left_encoder.Counts()+right_encoder.Counts())/2<counts)
+        {
+
+        }
+
+//Turn off motors
+right_motor.Stop();
+left_motor.Stop();
+}//end turn right function
+
 //RPS FUNCTIONS
 
 void write_coordinates(void)
