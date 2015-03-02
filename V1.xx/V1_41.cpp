@@ -121,7 +121,7 @@ void check_x_plus(float x_coordinate) //using RPS while robot is in the +x direc
     //check whether the robot is within an acceptable range
     while(RPS.X() < x_coordinate - 1 || RPS.X() > x_coordinate + 1)
     {
-        Sleep(500);
+        Sleep(50);
         if(RPS.X() > x_coordinate)
         {
             //pulse the motors for a short duration in the correct direction
@@ -150,7 +150,7 @@ void check_y_minus(float y_coordinate) //using RPS while robot is in the -y dire
     //check whether the robot is within an acceptable range
     while(y < y_coordinate - 1 || y > y_coordinate + 1)
     {
-        Sleep(500);
+        Sleep(50);
         y=RPS.Y();
         if(y > y_coordinate)
         {
@@ -178,7 +178,7 @@ void check_y_plus(float y_coordinate) //using RPS while robot is in the +y direc
     //check whether the robot is within an acceptable range
     while(RPS.Y() < y_coordinate - 1 || RPS.Y() > y_coordinate + 1)
     {
-        Sleep(500);
+        Sleep(50);
         if(RPS.Y() > y_coordinate)
         {
             //pulse the motors for a short duration in the correct direction
@@ -207,22 +207,18 @@ void check_heading(float heading) //using RPS
     while ((actual_heading-heading)>2 || (actual_heading-heading)<-2 ||(actual_heading-heading)>358 || (actual_heading-heading)<-358)
     {
     actual_heading=RPS.Heading();
-    Sleep(100);
+    Sleep(50);
     if (actual_heading>heading)//compare desired heading to current heading
     {
         left_motor.SetPercent(75);
         right_motor.SetPercent(75);
         Sleep(100);
-        left_motor.Stop();
-        right_motor.Stop();
     }
     else if (actual_heading<heading)
     {
         left_motor.SetPercent(-75);
         right_motor.SetPercent(-75);
         Sleep(100);
-        left_motor.Stop();
-        right_motor.Stop();
     }
     if (heading>358 || heading <2)
     {
@@ -233,8 +229,6 @@ void check_heading(float heading) //using RPS
             right_motor.SetPercent(-75);
             left_motor.SetPercent(-75);
             Sleep(100);
-            right_motor.Stop();
-            left_motor.Stop();
             }
         }
         else if ((actual_heading-heading)<-300)
@@ -244,12 +238,12 @@ void check_heading(float heading) //using RPS
             right_motor.SetPercent(75);
             left_motor.SetPercent(75);
             Sleep(100);
-            right_motor.Stop();
-            left_motor.Stop();
             }
         }
 
     }
+    left_motor.Stop();
+    right_motor.Stop();
     Sleep(50);
     }//end while loop
 }//end check heading function
