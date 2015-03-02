@@ -266,49 +266,49 @@ start_at_light();
 LCD.Clear();
 
 //robot starts at pt A
-/*write_coordinates();*/
+write_coordinates();
 move_forward(25, 14);//drive 14 inches down
 Sleep(100);
-/*write_coordinates();
+write_coordinates();
 check_y_minus(16.0);//ensure that robot went far enough in y direction
 Sleep(100);
-check_heading(180.0);*/
+check_heading(180.0);
 
 //robot should be at point B
-/*write_coordinates();*///check that it is
+write_coordinates();//check that it is
 Sleep(100);
 turn_left(25, 5);//FIND OUT EXPERIMENTALLY HOW MANY COUNTS TURNS IT RIGHT AND LEFT 4 is not correct
-/*write_coordinates();
+write_coordinates();
 Sleep(100);
 check_heading(270.0);//make sure robot turned a full 90 degrees
 write_coordinates();
 Sleep(100);
-check_x_plus(20.0);*///correct for forward motion in the turn
+check_x_plus(20.0);//correct for forward motion in the turn
 Sleep(100);
 move_forward(25, 12);//drive twelve inches in the +x direction
-/*write_coordinates();
+write_coordinates();
 Sleep(100);
 check_x_plus(30.5);
 Sleep(100);
 
 //should be at point C
-write_coordinates();*///ensure robot is at point C
+write_coordinates();//ensure robot is at point C
 Sleep(100);
 turn_left(25,5);
-/*Sleep(100);
+Sleep(100);
 write_coordinates();
 check_heading(359.9);//turn robot to face ramp
 Sleep(100);
 check_y_plus(18.0);
-write_coordinates();*/
+write_coordinates();
 Sleep(100);
 move_forward(25,4);//move to point D
 Sleep(100);
-/*check_y_plus(22);//make sure robot is at correct y coordinate
+check_y_plus(22);//make sure robot is at correct y coordinate
 
 //robot should be at point D
 write_coordinates();//check coordinates for the final time
-Sleep(100);*/
+Sleep(100);
 move_forward(25, 15);//full power to make it up the ramp
 Sleep(100);
 /*check_y_plus(45.00);*/
