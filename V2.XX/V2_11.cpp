@@ -466,10 +466,12 @@ void press_buttons(void) //presses buttons, hopefully in correct order
         w=RPS.WhiteButtonOrder();
         b=RPS.BlueButtonOrder();
         press_button1();
-        press_button2();
-        press_button3();
-        num_buttons=RPS.ButtonsPressed();
         move_forward(10,-1);
+        press_button2();
+        move_forward(10,-1);
+        press_button3();
+        move_forward(10,-1);
+        num_buttons=RPS.ButtonsPressed();
     }
 }
 
