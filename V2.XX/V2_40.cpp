@@ -379,81 +379,100 @@ void position_to_buttons(void) //function to find position needed for buttons
     //should now move to the front of the buttons
     move_forward(10,-2);//back up a little so you have room to move forward and press them
 }
+
 void press_button1(void)
 {
-if (r==1){
-servo.SetDegree(redangle);
-move_forward(10,1);
+    if (r==1){
+        servo.SetDegree(redangle);
+        move_forward(10,1);
+    }
+    else if(w==1){
+        servo.SetDegree(whiteangle);
+        move_forward(10,1);
+    }
+    else if (b==1){
+        servo.SetDegree(blueangle);
+        move_forward(10,1);
+    }
+    else{
+        LCD.WriteLine("ERROR1");
+    }
+    Sleep(100);
 }
-else if(w==1){
-servo.SetDegree(whiteangle);
-move_forward(10,1);
-}
-else if (b==1){
-servo.SetDegree(blueangle);
-move_forward(10,1);
-}
-else{
-LCD.WriteLine("ERROR1");
-}
-Sleep(100);
-}
+
 void press_button2(void)
 {
-if (r==2){
-servo.SetDegree(redangle);
-move_forward(10,1);
+    if (r==2){
+        servo.SetDegree(redangle);
+        move_forward(10,1);
+    }
+    else if(w==2){
+        servo.SetDegree(whiteangle);
+        move_forward(10,1);
+    }
+    else if (b==2){
+        servo.SetDegree(blueangle);
+        move_forward(10,1);
+    }
+    else{
+        LCD.WriteLine("ERROR2");
+    }
+    Sleep(100);
 }
-else if(w==2){
-servo.SetDegree(whiteangle);
-move_forward(10,1);
-}
-else if (b==2){
-servo.SetDegree(blueangle);
-move_forward(10,1);
-}
-else{
-LCD.WriteLine("ERROR2");
-}
-Sleep(100);
-}
+
 void press_button3(void)
 {
-if (r==3){
-servo.SetDegree(redangle);
-move_forward(10,1);
+    if (r==3){
+        servo.SetDegree(redangle);
+        move_forward(10,1);
+    }
+    else if(w==3){
+        servo.SetDegree(whiteangle);
+        move_forward(10,1);
+    }
+    else if (b==3){
+        servo.SetDegree(blueangle);
+        move_forward(10,1);
+    }
+    else{
+        LCD.WriteLine("ERROR3");
+    }
+    Sleep(100);
 }
-else if(w==3){
-servo.SetDegree(whiteangle);
-move_forward(10,1);
-}
-else if (b==3){
-servo.SetDegree(blueangle);
-move_forward(10,1);
-}
-else{
-LCD.WriteLine("ERROR3");
-}
-Sleep(100);
-}
+
 void press_buttons(void) //presses buttons, hopefully in correct order
 {
-servo.SetMin(servomin);
-servo.SetMax(servomax);
-while(true)
-{
-r=RPS.RedButtonOrder();
-w=RPS.WhiteButtonOrder();
-b=RPS.BlueButtonOrder();
-press_button1();
-move_forward(10,-1);
-press_button2();
-move_forward(10,-1);
-press_button3();
-move_forward(10,-1);
-num_buttons=RPS.ButtonsPressed();
+    servo.SetMin(servomin);
+    servo.SetMax(servomax);
+    r=RPS.RedButtonOrder();
+    w=RPS.WhiteButtonOrder();
+    b=RPS.BlueButtonOrder();
+    while (num_buttons<=3)
+    {
+        if (num_buttons==0)
+        {
+            press_button1();
+            move_forward(10,-1);
+            num_buttons=RPS.ButtonsPressed();
+        }
+        else if (num_buttons==1)
+        {
+            press_button2();
+            move_forward(10,-1);
+            num_buttons=RPS.ButtonsPressed();
+        }
+        else if (num_buttons==2)
+        {
+            press_button3();
+            move_forward(10,-1);
+            num_buttons=RPS.ButtonsPressed();
+        }
+        else if (num_buttons==3)
+        {
+            LCD.WriteLine("YOU DID IT!!!")
+        }
 }
-}
+
 int main(void)
 {
     RPS.InitializeMenu();
