@@ -413,6 +413,8 @@ void press_button1(void)
         LCD.WriteLine("ERROR1");
     }
     Sleep(100);
+    move_backward(10,-1);
+    Sleep(100);
 }
 
 void press_button2(void)
