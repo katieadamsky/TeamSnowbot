@@ -480,4 +480,5 @@ int main(void)
     position_to_buttons();
     servo.SetDegree(0);
     move_forward(50,1);
+    press_buttons();
 }
