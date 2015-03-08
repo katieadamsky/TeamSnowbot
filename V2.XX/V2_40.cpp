@@ -469,7 +469,7 @@ void press_buttons(void) //presses buttons, hopefully in correct order
         }
         else if (num_buttons==3)
         {
-            LCD.WriteLine("YOU DID IT!!!")
+            LCD.WriteLine("YOU DID IT!!!");
         }
 }
 
