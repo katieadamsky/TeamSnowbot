@@ -375,9 +375,9 @@ void position_to_buttons(void) //function to find position needed for buttons
     check_x_minus(14.9);
     Sleep(50);
     write_coordinates();
-    Sleep(1000);
+    Sleep(50);
     //should now move to the front of the buttons
-    move_forward(10,-2);//back up a little so you have room to move forward and press them
+    move_forward(10,-3);//back up a little so you have room to move forward and press them
 }
 
 void press_button1(void)
@@ -447,25 +447,36 @@ void press_buttons(void) //presses buttons, hopefully in correct order
     r=RPS.RedButtonOrder();
     w=RPS.WhiteButtonOrder();
     b=RPS.BlueButtonOrder();
-    while (num_buttons<=3)
+    LCD.WriteLine(r);
+    LCD.WriteLine(w);
+    LCD.WriteLine(b);
+    Sleep(5000);
+    LCD.Clear();
+    while (num_buttons<3)
     {
         if (num_buttons==0)
         {
             press_button1();
             move_forward(10,-1);
             num_buttons=RPS.ButtonsPressed();
+            LCD.WriteLine(num_buttons);
+            Sleep(1000);
         }
         else if (num_buttons==1)
         {
             press_button2();
             move_forward(10,-1);
             num_buttons=RPS.ButtonsPressed();
+            LCD.WriteLine(num_buttons);
+            Sleep(1000);
         }
         else if (num_buttons==2)
         {
             press_button3();
             move_forward(10,-1);
             num_buttons=RPS.ButtonsPressed();
+            LCD.WriteLine(num_buttons);
+            Sleep(1000);
         }
         else if (num_buttons==3)
         {
