@@ -384,15 +384,18 @@ void press_button1(void)
 {
     if (r==1){
         servo.SetDegree(redangle);
-        move_forward(10,1);
+        move_forward(25,1);
+        move_forward(25,-1);
     }
     else if(w==1){
         servo.SetDegree(whiteangle);
-        move_forward(10,1);
+        move_forward(25,1);
+        move_forward(25,-1);
     }
     else if (b==1){
         servo.SetDegree(blueangle);
-        move_forward(10,1);
+        move_forward(25,1);
+        move_forward(25,-1);
     }
     else{
         LCD.WriteLine("ERROR1");
@@ -404,15 +407,18 @@ void press_button2(void)
 {
     if (r==2){
         servo.SetDegree(redangle);
-        move_forward(10,1);
+        move_forward(25,1);
+        move_forward(25,-1);
     }
     else if(w==2){
         servo.SetDegree(whiteangle);
-        move_forward(10,1);
+        move_forward(25,1);
+        move_forward(25,-1);
     }
     else if (b==2){
         servo.SetDegree(blueangle);
-        move_forward(10,1);
+        move_forward(25,1);
+        move_forward(25,-1);
     }
     else{
         LCD.WriteLine("ERROR2");
@@ -424,15 +430,18 @@ void press_button3(void)
 {
     if (r==3){
         servo.SetDegree(redangle);
-        move_forward(10,1);
+        move_forward(25,1);
+        move_forward(25,-1);
     }
     else if(w==3){
         servo.SetDegree(whiteangle);
-        move_forward(10,1);
+        move_forward(25,1);
+        move_forward(25,-1);
     }
     else if (b==3){
         servo.SetDegree(blueangle);
-        move_forward(10,1);
+        move_forward(25,1);
+        move_forward(25,-1);
     }
     else{
         LCD.WriteLine("ERROR3");
@@ -457,7 +466,6 @@ void press_buttons(void) //presses buttons, hopefully in correct order
         if (num_buttons==0)
         {
             press_button1();
-            move_forward(10,-1);
             num_buttons=RPS.ButtonsPressed();
             LCD.WriteLine(num_buttons);
             Sleep(1000);
@@ -465,7 +473,6 @@ void press_buttons(void) //presses buttons, hopefully in correct order
         else if (num_buttons==1)
         {
             press_button2();
-            move_forward(10,-1);
             num_buttons=RPS.ButtonsPressed();
             LCD.WriteLine(num_buttons);
             Sleep(1000);
@@ -473,7 +480,6 @@ void press_buttons(void) //presses buttons, hopefully in correct order
         else if (num_buttons==2)
         {
             press_button3();
-            move_forward(10,-1);
             num_buttons=RPS.ButtonsPressed();
             LCD.WriteLine(num_buttons);
             Sleep(1000);
@@ -482,6 +488,7 @@ void press_buttons(void) //presses buttons, hopefully in correct order
         {
             LCD.WriteLine("YOU DID IT!!!")
         }
+        LCD.Clear();
     }
 }
 
