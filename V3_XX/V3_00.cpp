@@ -535,9 +535,17 @@ void move_to_garage(void)
     //once robot is at top of ramp, it will find the garage, by driving to the buttons, then turning
     position_to_buttons();
     move_forward(25,-3);
-    //robot will also need to turn itself around
-
+    turn_left(25,5);
+    check_y_minus(55);
+    check_x_minus(8.5);
+    check_heading(325.5);
 }
+
+void deposit_salt()
+{
+    //robot will lower the scoop and deposit the salt bag in the garage
+}
+
 //MAIN
 int main(void)
 {
@@ -547,4 +555,5 @@ int main(void)
     move_to_saltbag();
     scoop();
     move_up_ramp();
+    move_to_garage();
 }
