@@ -544,16 +544,30 @@ void move_to_garage(void)
 void deposit_salt()
 {
     //robot will lower the scoop and deposit the salt bag in the garage
-}
+    saltservo.SetDegree(scoopangle);
+    move_forward(10,4);
+    //robot will move backward really fast to let the salt bag slide out
+    move_forward(50,-6);
+    //check if salt bag is still in scoop
+    micro=bump.Value()
+    while (micro==1)
+    {
+        move_forward(10,6);
+        Sleep(50);
+        move_forward(60,-6);
+        Sleep(50);
+    }
+}//end deposit_salt function
 
 //MAIN
 int main(void)
 {
-    RPS.InitializeMenu();
     saltservo.SetDegree(startangle);
+    RPS.InitializeMenu();
     start_at_light();
     move_to_saltbag();
     scoop();
     move_up_ramp();
     move_to_garage();
+    deposit_salt
 }
