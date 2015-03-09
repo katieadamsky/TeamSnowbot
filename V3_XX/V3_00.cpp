@@ -16,23 +16,31 @@ DigitalEncoder left_encoder(FEHIO::P0_2);
 FEHMotor right_motor(FEHMotor::Motor0);
 FEHMotor left_motor(FEHMotor::Motor1);
 AnalogInputPin cds(FEHIO::P0_4); //CdS cell
-FEHServo servo(FEHServo::Servo0);
-FEHServo saltservo(FEHServo::Servo2);
+FEHServo servo(FEHServo::Servo0); //servo for button, crank and oil switch mechanism
+FEHServo saltservo(FEHServo::Servo2); //servo for scoop mechanism
+DigitalInputPin bump(FEHIO::P0_4); //bump switch to determine if salt bag is in scoop
 
+
+//values for motion functions
 #define counts_per_rotation 33.7408
-//define different levels of motor power for easily modifying later
 #define full_power 100
 #define normal_power 25
 #define half_power 50
 
+//values for button-pressing functions
 #define servomin 545
 #define servomax 2367
 #define redangle 0
 #define whiteangle 60
 #define blueangle 38
 
+//values for salt bag functions
+//STILL NEED TO BE DETERMINED EXPERIMENTALLY
 #define scoopangle 0
 #define startangle 180
+#define saltholdingangle 120
+#define saltservomin 500
+#define saltservomax 2200
 
 float encode;//for rotary encoding functions
 float x, y, head;//for RPS functions
@@ -40,6 +48,8 @@ int r, w, b, num_buttons=0;//for button pressing function
 
 void start_at_light(void)
 {
+    //waits for input from the CdS cell before progressing
+    //*threshold value for cds may vary depending on ambient light and other factors
     float v;
     v=cds.Value();
     while (v>0.2)
@@ -54,6 +64,7 @@ void start_at_light(void)
 //MOVING FUNCTIONS
 void move_forward(int percent, float distance) //using encoders
 {
+    //moves forward at specified power for specified number of encoder counts
     encode = distance * counts_per_rotation;
     //Reset encoder counts
     right_encoder.ResetCounts();
@@ -73,6 +84,7 @@ void move_forward(int percent, float distance) //using encoders
 
 void turn_left(int percent, float distance) //using encoders
 {
+    //turns left for specified distance and percent power
     encode = distance * counts_per_rotation;
     //Reset encoder counts
     right_encoder.ResetCounts();
@@ -89,8 +101,10 @@ void turn_left(int percent, float distance) //using encoders
     right_motor.Stop();
     left_motor.Stop();
     }//end turn left function
-    void turn_right(int percent, int distance) //using encoders
-    {
+
+void turn_right(int percent, int distance) //using encoders
+{
+    //powers the motors the specified percent and distance in a right turn
     encode = distance * counts_per_rotation;
     //Reset encoder counts
     right_encoder.ResetCounts();
@@ -138,6 +152,7 @@ void check_coordinates(void)//continuously writes the RPS coordinates to the scr
 
 void write_coordinates(void)
 {
+    //finds RPS coordinates and writes them to the screen
     float x, y, head;
     x=RPS.X();
     y=RPS.Y();
@@ -147,8 +162,9 @@ void write_coordinates(void)
     LCD.WriteLine(head);
 }
 
-void check_x_plus(float x_coordinate) //using RPS while robot is in the +x direction
+void check_x_plus(float x_coordinate) 
 {
+    //aligns robot with desired RPS coordinate in the +x direction
     //check whether the robot is within an acceptable range
     while(RPS.X() < x_coordinate - 1 || RPS.X() > x_coordinate + 1)
     {
@@ -174,7 +190,9 @@ void check_x_plus(float x_coordinate) //using RPS while robot is in the +x direc
     }
 }//end check x plus function
 
-void check_x_minus(float x_coordinate){
+void check_x_minus(float x_coordinate)
+{
+    //aligns robot with desired RPS coordinate in -x direction
     while(RPS.X() < x_coordinate - 1 || RPS.X() > x_coordinate + 1)
     {
         Sleep(75);
@@ -199,8 +217,9 @@ void check_x_minus(float x_coordinate){
     }
 }
 
-void check_y_minus(float y_coordinate) //using RPS while robot is in the -y direction
+void check_y_minus(float y_coordinate) 
 {
+    //aligns robot with desired RPS coordinate in the -y direction
     y=RPS.Y();
     //check whether the robot is within an acceptable range
     while(y < y_coordinate - 1 || y > y_coordinate + 1)
@@ -228,8 +247,9 @@ void check_y_minus(float y_coordinate) //using RPS while robot is in the -y dire
     }
 }//end check y minus
 
-void check_y_plus(float y_coordinate) //using RPS while robot is in the +y direction
+void check_y_plus(float y_coordinate)
 {
+    //aligns robot with desired RPS coordinate in the +y direction
     //check whether the robot is within an acceptable range
     while(RPS.Y() < y_coordinate - 1 || RPS.Y() > y_coordinate + 1)
     {
@@ -255,16 +275,20 @@ void check_y_plus(float y_coordinate) //using RPS while robot is in the +y direc
     }
 }//end check y plus function
 
-void check_heading(float heading) //using RPS
+void check_heading(float heading) 
 {
+    //compares RPS heading to desired heading, then turns robot until the two are within 2 degrees of each other
     float actual_heading;//find the actual heading
     actual_heading=RPS.Heading();
+    //determine if heading is within acceptable range
     while ((actual_heading-heading)>2 || (actual_heading-heading)<-2 ||(actual_heading-heading)>358 || (actual_heading-heading)<-358)
     {
         actual_heading=RPS.Heading();
         Sleep(50);
-        if (actual_heading>heading)//compare desired heading to current heading
+        //compare desired heading to current heading
+        if (actual_heading>heading)
         {
+            //pulse motors for short duration in correct direction
             left_motor.SetPercent(15);
             right_motor.SetPercent(15);
             Sleep(25);
@@ -275,7 +299,7 @@ void check_heading(float heading) //using RPS
             right_motor.SetPercent(-15);
             Sleep(25);
         }
-        if (heading>358 || heading <2)
+        if (heading>358 || heading <2)//special case for heading of 0 degrees so robot won't spin in a full circle
         {
             if ((actual_heading-heading)>300)
             {
@@ -305,66 +329,41 @@ void check_heading(float heading) //using RPS
     Sleep(75);
 }//end while loop
 }//end check heading function
-void move_up_ramp(void)//starts at light and drives to crank
+
+void move_up_ramp(void)//drives to crank
 {
     LCD.Clear();
 
-//robot starts at pt A: (18.4, 31.3) 180 deg
+//robot starts at (25.4, 10.599, heading 37.5)
     write_coordinates();
-    move_forward(25, 14);//drive 14 inches down
-    Sleep(100);
-    write_coordinates();
-    check_y_minus(18.4);//ensure that robot went far enough in y direction
-    Sleep(100);
-    check_heading(180.0);
+    //first it needs to turn itself back around
+    move_forward(25,-4);
+    turn_left(25,10);
+    check_heading(359.9);//orient it in ramp direction
 
-//robot should be at point B: (18.4, 18.4) 180 deg
-    write_coordinates();//check that it is
-    Sleep(100);
-    turn_left(25, 5);
-    write_coordinates();
-    Sleep(100);
-    check_heading(270.0);//make sure robot turned a full 90 degrees
-    write_coordinates();
-    Sleep(100);
-    check_x_plus(18.4);//correct for forward motion in the turn
-    Sleep(100);
-    move_forward(25, 10);//drive twelve inches in the +x direction
-    write_coordinates();
-    Sleep(100);
-    check_x_plus(30.4);
-    write_coordinates();
-    Sleep(100);
-
-//should be at point C
-    write_coordinates();//ensure robot is at point C
-    Sleep(100);
-    turn_left(25,5);
-    Sleep(100);
-    write_coordinates();
+//move to bottom of ramp
+    Sleep(50);
     check_y_plus(18.5);
     write_coordinates();
-    Sleep(100);
+    Sleep(50);
     move_forward(25,5);//move to point D
-    Sleep(100);
+    Sleep(50);
     check_y_plus(24.9);//make sure robot is at correct y coordinate
 
 //robot should be at point D
-    write_coordinates();//check coordinates
-    Sleep(100);
     check_heading(359.9);
-    move_forward(25, 20);//full power to make it up the ramp
+    move_forward(25, 16);//full power to make it up the ramp
     write_coordinates();
-    Sleep(100);
+    Sleep(50);
 
 }//end of move_up_ramp
 
-//Pressing buttons functions
+//PRESSING BUTTONS FUNCTIONS
 void position_to_buttons(void) //function to find position needed for buttons
 {
     move_forward(25,4);//move forward from top of ramp
     write_coordinates();
-    Sleep(100);
+    Sleep(50);
     turn_left(25,2.5);//turn on a 45 degree angle toward buttons
     Sleep(50);
     check_heading(34.199);//correct to avoid snow
@@ -386,6 +385,8 @@ void position_to_buttons(void) //function to find position needed for buttons
 
 void press_button1(void)
 {
+    //determines which of the three buttons has the value of 1, sets the servo to the corresponding angle
+    //and moves forward to press it, then backward to get ready to press next button
     if (r==1){
         servo.SetDegree(redangle);
         move_forward(25,1);
@@ -405,10 +406,11 @@ void press_button1(void)
         LCD.WriteLine("ERROR1");
     }
     Sleep(100);
-}
+}//end press button1
 
 void press_button2(void)
 {
+    //same as press_button1, but for second set
     if (r==2){
         servo.SetDegree(redangle);
         move_forward(25,1);
@@ -428,10 +430,11 @@ void press_button2(void)
         LCD.WriteLine("ERROR2");
     }
     Sleep(100);
-}
+}//end press button2
 
 void press_button3(void)
 {
+    //same as previous functions
     if (r==3){
         servo.SetDegree(redangle);
         move_forward(25,1);
@@ -451,28 +454,29 @@ void press_button3(void)
         LCD.WriteLine("ERROR3");
     }
     Sleep(100);
-}
+}//end press button3
 
-void press_buttons(void) //presses buttons, hopefully in correct order
+void press_buttons(void) //presses buttons in order dictated by RPS
 {
     servo.SetMin(servomin);
     servo.SetMax(servomax);
+    //read in data on the button order
     r=RPS.RedButtonOrder();
     w=RPS.WhiteButtonOrder();
     b=RPS.BlueButtonOrder();
-    LCD.WriteLine(r);
+    LCD.WriteLine(r);//display order for debugging purposes
     LCD.WriteLine(w);
     LCD.WriteLine(b);
     Sleep(5000);
     LCD.Clear();
     while (num_buttons<3)
     {
-        if (num_buttons==0)
+        if (num_buttons==0)//if none of the buttons have been pressed yet
         {
-            press_button1();
-            num_buttons=RPS.ButtonsPressed();
+            press_button1();//function to determine and press first button
+            num_buttons=RPS.ButtonsPressed();//takes new count to see if button has been pressed
             LCD.WriteLine(num_buttons);
-            Sleep(1000);
+            Sleep(1000);//sleeps extra long for debugging purposes(should be changed later)
         }
         else if (num_buttons==1)
         {
@@ -493,18 +497,53 @@ void press_buttons(void) //presses buttons, hopefully in correct order
             LCD.WriteLine("YOU DID IT!!!")
         }
         LCD.Clear();
-    }
-}
+    }//end while loop
+}//end press buttons function
 
 //FUNCTIONS FOR SALT BAG CONTROL
 
 void move_to_saltbag(void)
 {
-  
+    //positions robot in ideal scooping position
+    move_forward(25, 18);
+    turn_right(25,5);//robot will now attempt to change direction, so the scoop can face the back
+    check_heading(37.5);
+    check_x_plus(25.4);
+    check_y_minus(10.599);
 }
 
-//INT MAIN
+void scoop(void);
+{
+    int micro;
+    micro=bump.Value();
+    //lowers servo to scooping position and drives forward until salt bag is within confines of scooper
+    saltservo.SetDegree(scoopangle);
+    //drive until microswitch is pressed
+    while (micro==1)
+    {
+        micro=bump.Value();
+        rightmotor.SetPercent(-10);
+        leftmotor.SetPercent(10);
+    }//end while loop
+    LCD.WriteLine("Salt bag should now be in scoop");
+    saltservo.SetDegree(saltholdingangle);//hold salt bag at high enough angle that it won't fall out
+}//end scoop function
+
+void move_to_garage(void)
+{
+    //once robot is at top of ramp, it will find the garage, by driving to the buttons, then turning
+    position_to_buttons();
+    move_forward(25,-3);
+    //robot will also need to turn itself around
+
+}
+//MAIN
 int main(void)
 {
     RPS.InitializeMenu();
+    saltservo.SetDegree(startangle);
+    start_at_light();
+    move_to_saltbag();
+    scoop();
+    move_up_ramp();
 }
