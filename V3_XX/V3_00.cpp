@@ -525,7 +525,8 @@ void scoop(void);
         rightmotor.SetPercent(-10);
         leftmotor.SetPercent(10);
     }//end while loop
-    LCD.WriteLine("Salt bag should now be in scoop");
+    rightmotor.Stop();
+    leftmotor.Stop();
     saltservo.SetDegree(saltholdingangle);//hold salt bag at high enough angle that it won't fall out
 }//end scoop function
 
