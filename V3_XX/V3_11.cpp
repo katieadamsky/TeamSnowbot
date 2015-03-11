@@ -121,7 +121,7 @@ void turn_right(int percent, int distance) //using encoders
     //Turn off motors
     right_motor.Stop();
     left_motor.Stop();
-    }//end turn right function
+}//end turn right function
 
 //RPS FUNCTIONS
 void check_coordinates(void)//continuously writes the RPS coordinates to the screen
