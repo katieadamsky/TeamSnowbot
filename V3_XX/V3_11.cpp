@@ -344,8 +344,8 @@ void move_up_ramp(void)//drives to crank
 //robot starts at (25.4, 10.599, heading 37.5)
     write_coordinates();
     //first it needs to turn itself back around
-    move_forward(25,2);
-    turn_right(25,8);
+    move_forward(25,1);
+    turn_right(25,2);
     check_x_plus(27);
     check_heading(0);//orient it in ramp direction
 
