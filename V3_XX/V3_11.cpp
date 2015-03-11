@@ -308,32 +308,32 @@ void check_heading(float heading)
         {
             if ((actual_heading-heading)>0)
             {
-                while ((actual_heading-heading)>355)
+                while ((actual_heading-heading)>358)
                 {
                     actual_heading==RPS.Heading();
                     right_motor.SetPercent(15);
                     left_motor.SetPercent(15);
-                    Sleep(25);
+                    Sleep(15);
                     right_motor.Stop();
                     left_motor.Stop();
-                    Sleep(25);
+                    Sleep(15);
                 }
             }
             else if ((actual_heading-heading)<0)
             {
-                while ((actual_heading-heading)>-355)
+                while ((actual_heading-heading)>-358)
                 {
                     actual_heading==RPS.Heading();
                     right_motor.SetPercent(-15);
                     left_motor.SetPercent(-15);
-                    Sleep(25);
+                    Sleep(15);
                     right_motor.Stop();
                     left_motor.Stop();
-                    Sleep(25);
+                    Sleep(15);
                 }
             }
         }
-        Sleep(75);
+        Sleep(15);
     }//end while loop
 }//end check heading function
 
@@ -345,7 +345,7 @@ void move_up_ramp(void)//drives to crank
     write_coordinates();
     //first it needs to turn itself back around
     move_forward(25,2);
-    turn_right(25,6);
+    turn_right(25,8);
     check_x_plus(27);
     check_heading(0);//orient it in ramp direction
 
@@ -570,11 +570,11 @@ void deposit_salt()
 //MAIN
 int main(void)
 {
-saltservo.SetMin(620);
-saltservo.SetMax(2335);
-saltservo.SetDegree(90);
-Sleep(1000);
-saltservo.SetDegree(145);
+    saltservo.SetMin(620);
+    saltservo.SetMax(2335);
+    saltservo.SetDegree(90);
+    Sleep(1000);
+    saltservo.SetDegree(145);
 
 
 
