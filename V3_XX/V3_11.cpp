@@ -575,7 +575,4 @@ int main(void)
     saltservo.SetDegree(90);
     Sleep(1000);
     saltservo.SetDegree(145);
-
-
-
 }
