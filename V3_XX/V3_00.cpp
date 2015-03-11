@@ -494,7 +494,7 @@ void press_buttons(void) //presses buttons in order dictated by RPS
         }
         else if (num_buttons==3)
         {
-            LCD.WriteLine("YOU DID IT!!!")
+            LCD.WriteLine("YOU DID IT!!!");
         }
         LCD.Clear();
     }//end while loop
@@ -507,12 +507,12 @@ void move_to_saltbag(void)
     //positions robot in ideal scooping position
     move_forward(25, 18);
     turn_right(25,5);//robot will now attempt to change direction, so the scoop can face the back
-    check_heading(37.5);
-    check_x_plus(25.4);
-    check_y_minus(10.599);
+    check_heading(44.8);
+    check_x_plus(23.4);
+    check_y_minus(13.8);
 }
 
-void scoop(void);
+void scoop(void)
 {
     int micro;
     micro=bump.Value();
@@ -536,25 +536,25 @@ void move_to_garage(void)
     position_to_buttons();
     move_forward(25,-3);
     turn_left(25,5);
-    check_y_minus(55);
-    check_x_minus(8.5);
-    check_heading(325.5);
+    check_y_minus(51.9);
+    check_x_minus(11.7);
+    check_heading(224.1);
 }
 
 void deposit_salt()
 {
     //robot will lower the scoop and deposit the salt bag in the garage
     saltservo.SetDegree(scoopangle);
-    move_forward(10,4);
+    move_forward(10,9);
     //robot will move backward really fast to let the salt bag slide out
-    move_forward(50,-6);
+    move_forward(50,-9);
     //check if salt bag is still in scoop
     micro=bump.Value()
-    while (micro==1)
+    while (micro==0)
     {
-        move_forward(10,6);
+        move_forward(10,9);
         Sleep(50);
-        move_forward(60,-6);
+        move_forward(60,-9);
         Sleep(50);
     }
 }//end deposit_salt function
