@@ -620,21 +620,45 @@ void move_up_ramp(void)//drives to crank
 
 void position_to_crank(void)
 {
-    
+    //move away from ramp
+    move_forward(-25, 10);
+    //3-point turn
+    turn_right(25, 5);
+    turn_right(-25, 5);
+    check_heading(0.00);
+    move_forward(25,5);
+    check_y_plus(56.1);
 }//end position_to_crank
 
-void determine_direction(void)
+int checkcds(void)
 {
-    v=cds.Value();
-    if (v>XXXXXX)
-    {
-        
-    }
-    else if (v<XXXXX)
-    {
-        
-    }
+LCD.Clear();
+while (true)
+{
+float v;
+v=cds.Value();
+Sleep(100);
+LCD.WriteLine(v);
+Sleep(1000);
 }
+}
+
+void crank(void)
+{
+    float v;
+    v=cds.Value();
+    if (v>0.75)
+    {
+        //the light color is blue
+        //set servo motor accordingly
+    }
+    else if (v<0.75)
+    {
+        //light color is red
+        //set servo in opposite direction
+    }
+}//end crank function
+
 
 
 
@@ -643,22 +667,10 @@ void determine_direction(void)
 int main(void)
 {
 
-    saltservo.SetDegree(startangle);
     RPS.InitializeMenu();
-    start_at_light();
-    LCD.WriteLine("DONE! :)");
-    move_to_saltbag();
-    LCD.WriteLine("DONE! :)");
-    scoop();
-    LCD.WriteLine("DONE! :)");
-    move_up_ramp();
-    LCD.WriteLine("DONE! :)");
-    position_to_buttons();
-    LCD.WriteLine("DONE! :)");
-    move_to_garage();
-    LCD.WriteLine("DONE! :)");
-    deposit_salt();
-    LCD.WriteLine("DONE! :)");
+    saltservo.SetDegree(startangle);
+    position_to_crank();
+
 
 }
 
