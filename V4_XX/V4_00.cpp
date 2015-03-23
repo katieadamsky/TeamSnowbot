@@ -319,8 +319,6 @@ void check_heading(float heading)
         {
             if ((actual_heading-heading)>358)
             {
-                while ((actual_heading-heading)>358)
-                {
                     actual_heading==RPS.Heading();
                     right_motor.SetPercent(20);
                     left_motor.SetPercent(20);
@@ -328,12 +326,9 @@ void check_heading(float heading)
                     right_motor.Stop();
                     left_motor.Stop();
                     Sleep(25);
-                }
             }
-            else if (actual_heading-heading<180)
+            else if (actual_heading-heading<-358)
             {
-                while ((actual_heading-heading)<180)
-                {
                     actual_heading==RPS.Heading();
                     right_motor.SetPercent(-20);
                     left_motor.SetPercent(-20);
@@ -341,7 +336,6 @@ void check_heading(float heading)
                     right_motor.Stop();
                     left_motor.Stop();
                     Sleep(25);
-                }
             }
         }
         Sleep(15);
@@ -546,19 +540,18 @@ void find_servo_angle(void)
 void move_to_saltbag(void)
 {
     //positions robot in ideal scooping position
-    move_forward(-25, 20);
+    move_forward(-25, 22);
+    check_y_plus(6.8);
     turn_right(-25, 5);
+    check_x_minus(17.699);
     check_heading(90.0);
-    move_forward(-25,5);
-    check_x_minus(23.4);//since robot is moving backwards, use opposite RPS functions
 }
 
 void scoop(void)
 {
     //lowers servo to scooping position and drives forward until salt bag is within confines of scooper
     saltservo.SetDegree(scoopangle);
-    //drive until microswitch is pressed
-    move_forward(-15,7);
+    move_forward(-25,7);
     Sleep(1000);
     saltservo.SetDegree(saltholdingangle);//hold salt bag at high enough angle that it won't fall out
     Sleep(5000);
@@ -624,7 +617,7 @@ void position_to_crank(void)
     move_forward(-25, 10);
     //3-point turn
     turn_right(25, 5);
-    turn_right(-25, 5);
+    turn_left(-25, 5);
     check_heading(0.00);
     move_forward(25,5);
     check_y_plus(56.1);
