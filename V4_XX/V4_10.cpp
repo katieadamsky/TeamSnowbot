@@ -35,7 +35,6 @@ DigitalInputPin bump(FEHIO::P0_4); //bump switch to determine if salt bag is in 
 #define blueangle 38
 
 //values for salt bag functions
-//STILL NEED TO BE DETERMINED EXPERIMENTALLY
 #define scoopangle 155
 #define startangle 60
 #define saltholdingangle 100
@@ -323,8 +322,8 @@ void check_heading(float heading)
             if ((actual_heading-heading)<358 && actual_heading>180)
             {
                 actual_heading==RPS.Heading();
-                right_motor.SetPercent(20);
-                left_motor.SetPercent(20);
+                right_motor.SetPercent(-20);
+                left_motor.SetPercent(-20);
                 Sleep(25);
                 right_motor.Stop();
                 left_motor.Stop();
@@ -343,8 +342,8 @@ void check_heading(float heading)
             else if ((actual_heading-heading)>2 && actual_heading<180)
             {
                 actual_heading==RPS.Heading();
-                right_motor.SetPercent(-20);
-                left_motor.SetPercent(-20);
+                right_motor.SetPercent(20);
+                left_motor.SetPercent(20);
                 Sleep(25);
                 right_motor.Stop();
                 left_motor.Stop();
@@ -510,43 +509,43 @@ void press_buttons(void) //presses buttons in order dictated by RPS
 void find_servo_angle(void)
 {
     //sets servo to many different angles, and writes each degree value to the screen
-    saltservo.SetDegree(0);
+    servo.SetDegree(0);
     LCD.WriteLine("0");
     Sleep(1000);
-    saltservo.SetDegree(15);
+    servo.SetDegree(15);
     LCD.WriteLine("15");
     Sleep(1000);
-    saltservo.SetDegree(30);
+    servo.SetDegree(30);
     LCD.WriteLine("30");
     Sleep(1000);
-    saltservo.SetDegree(45);
+    servo.SetDegree(45);
     LCD.WriteLine("45");
     Sleep(1000);
-    saltservo.SetDegree(60);
+    servo.SetDegree(60);
     LCD.WriteLine("60");
     Sleep(1000);
-    saltservo.SetDegree(75);
+    servo.SetDegree(75);
     LCD.WriteLine("75");
     Sleep(1000);
-    saltservo.SetDegree(90);
+    servo.SetDegree(90);
     LCD.WriteLine("90");
     Sleep(1000);
-    saltservo.SetDegree(105);
+    servo.SetDegree(105);
     LCD.WriteLine("105");
     Sleep(1000);
-    saltservo.SetDegree(120);
+    servo.SetDegree(120);
     LCD.WriteLine("120");
     Sleep(1000);
-    saltservo.SetDegree(135);
+    servo.SetDegree(135);
     LCD.WriteLine("135");
     Sleep(1000);
-    saltservo.SetDegree(150);
+    servo.SetDegree(150);
     LCD.WriteLine("150");
     Sleep(1000);
-    saltservo.SetDegree(165);
+    servo.SetDegree(165);
     LCD.WriteLine("165");
     Sleep(1000);
-    saltservo.SetDegree(180);
+    servo.SetDegree(180);
     LCD.WriteLine("180");
     Sleep(1000);
 }//end find servo angle
@@ -584,11 +583,9 @@ void move_to_garage(void)
 void deposit_salt()
 {
     //robot will lower the scoop and deposit the salt bag in the garage
-
     Sleep(50);
-
-    //robot will move backward really fast to let the salt bag slide out
     move_forward(-25, 5);
+    //robot will move backward really fast to let the salt bag slide out
     saltservo.SetDegree(scoopangle);
     move_forward(70,5);
 
@@ -673,6 +670,58 @@ void crank(void)
     }
 }//end crank function
 
+void move_up_ramp_original(void)//starts at light and drives to crank
+{
+    LCD.Clear();
+    
+    //robot starts at pt A: (18.4, 31.3) 180 deg
+    write_coordinates();
+    move_forward(25, 14);//drive 14 inches down
+    Sleep(10);
+    write_coordinates();
+    check_y_minus(18.4);//ensure that robot went far enough in y direction
+    Sleep(10);
+    check_heading(180.0);
+    
+    //robot should be at point B: (18.4, 18.4) 180 deg
+    write_coordinates();//check that it is
+    Sleep(10);
+    turn_left(25, 5);
+    write_coordinates();
+    Sleep(10);
+    check_heading(270.0);//make sure robot turned a full 90 degrees
+    write_coordinates();
+    Sleep(10);
+    check_x_plus(18.4);//correct for forward motion in the turn
+    Sleep(10);
+    move_forward(25, 10);//drive twelve inches in the +x direction
+    write_coordinates();
+    Sleep(10);
+    check_x_plus(30.4);
+    write_coordinates();
+    Sleep(10);
+    
+    //should be at point C
+    write_coordinates();//ensure robot is at point C
+    Sleep(10);
+    turn_left(25,5);
+    Sleep(10);
+    write_coordinates();
+    check_y_plus(18.5);
+    write_coordinates();
+    Sleep(10);
+    move_forward(25,5);//move to point D
+    Sleep(10);
+    check_y_plus(24.9);//make sure robot is at correct y coordinate
+    
+    //robot should be at point D
+    write_coordinates();//check coordinates
+    Sleep(10);
+    check_heading(359.9);
+    move_forward(25, 20);//full power to make it up the ramp
+    write_coordinates();
+    Sleep(10);
+}//end of move_up_ramp_original
 
 
 
@@ -680,11 +729,11 @@ void crank(void)
 
 int main(void)
 {
-
     RPS.InitializeMenu();
     saltservo.SetDegree(startangle);
+    start_at_light();
+    move_up_ramp_original();
     position_to_crank();
-
-
+    crank();
 }
 
