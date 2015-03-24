@@ -298,44 +298,57 @@ void check_heading(float heading)
         LCD.WriteLine(actual_heading);
         Sleep(50);
         //compare desired heading to current heading
-        if (actual_heading>heading)
+        if (heading != 0)
         {
-            //pulse motors for short duration in correct direction
-            left_motor.SetPercent(15);
-            right_motor.SetPercent(15);
-            Sleep(20);
-            left_motor.Stop();
-            right_motor.Stop();
-        }
-        else if (actual_heading<heading)
-        {
-            left_motor.SetPercent(-15);
-            right_motor.SetPercent(-15);
-            Sleep(20);
-            left_motor.Stop();
-            right_motor.Stop();
-        }
-        if (heading==0)//special case for heading of 0 degrees so robot won't spin in a full circle
-        {
-            if ((actual_heading-heading)>358)
+            if (actual_heading>heading)
             {
-                    actual_heading==RPS.Heading();
-                    right_motor.SetPercent(20);
-                    left_motor.SetPercent(20);
-                    Sleep(25);
-                    right_motor.Stop();
-                    left_motor.Stop();
-                    Sleep(25);
+                //pulse motors for short duration in correct direction
+                left_motor.SetPercent(15);
+                right_motor.SetPercent(15);
+                Sleep(20);
+                left_motor.Stop();
+                right_motor.Stop();
             }
-            else if (actual_heading-heading<-358)
+            else if (actual_heading<heading)
             {
-                    actual_heading==RPS.Heading();
-                    right_motor.SetPercent(-20);
-                    left_motor.SetPercent(-20);
-                    Sleep(25);
-                    right_motor.Stop();
-                    left_motor.Stop();
-                    Sleep(25);
+                left_motor.SetPercent(-15);
+                right_motor.SetPercent(-15);
+                Sleep(20);
+                left_motor.Stop();
+                right_motor.Stop();
+            }
+        }
+        else if (heading==0)//special case for heading of 0 degrees so robot won't spin in a full circle
+        {
+            if ((actual_heading-heading)<358 && actual_heading>180)
+            {
+                actual_heading==RPS.Heading();
+                right_motor.SetPercent(20);
+                left_motor.SetPercent(20);
+                Sleep(25);
+                right_motor.Stop();
+                left_motor.Stop();
+                Sleep(25);
+            }
+            else if ((actual_heading-heading)<-358)
+            {
+                actual_heading==RPS.Heading();
+                right_motor.SetPercent(-20);
+                left_motor.SetPercent(-20);
+                Sleep(25);
+                right_motor.Stop();
+                left_motor.Stop();
+                Sleep(25);
+            }
+            else if ((actual_heading-heading)>2 && actual_heading<180)
+            {
+                actual_heading==RPS.Heading();
+                right_motor.SetPercent(-20);
+                left_motor.SetPercent(-20);
+                Sleep(25);
+                right_motor.Stop();
+                left_motor.Stop();
+                Sleep(25);
             }
         }
         Sleep(15);
@@ -496,6 +509,7 @@ void press_buttons(void) //presses buttons in order dictated by RPS
 
 void find_servo_angle(void)
 {
+    //sets servo to many different angles, and writes each degree value to the screen
     saltservo.SetDegree(0);
     LCD.WriteLine("0");
     Sleep(1000);
@@ -575,8 +589,8 @@ void deposit_salt()
 
     //robot will move backward really fast to let the salt bag slide out
     move_forward(-25, 5);
-        saltservo.SetDegree(scoopangle);
-    move_forward(50,5);
+    saltservo.SetDegree(scoopangle);
+    move_forward(70,5);
 
 }
 
@@ -625,15 +639,15 @@ void position_to_crank(void)
 
 int checkcds(void)
 {
-LCD.Clear();
-while (true)
-{
-float v;
-v=cds.Value();
-Sleep(100);
-LCD.WriteLine(v);
-Sleep(1000);
-}
+    LCD.Clear();
+    while (true)
+    {
+        float v;
+        v=cds.Value();
+        Sleep(100);
+        LCD.WriteLine(v);
+        Sleep(1000);
+    }
 }
 
 void crank(void)
@@ -644,7 +658,13 @@ void crank(void)
     {
         //the light color is blue
         //set servo motor accordingly
-        
+        servo.SetDegree(0);
+        move_forward(10, 1);
+        servo.SetDegree(180);
+        move_forward(-10,1);
+        servo.SetDegree(0);
+        move_forward(10,1);
+        servo.SetDegree(180);
     }
     else if (v<0.75)
     {
