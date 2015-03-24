@@ -369,7 +369,7 @@ void position_to_buttons(void) //function to find position needed for buttons
     write_coordinates();
     Sleep(50);
     //should now move to the front of the buttons
-    move_forward(10,-3);//back up a little so you have room to move forward and press them
+    move_forward(-10,3);//back up a little so you have room to move forward and press them
 }
 
 void press_button1(void)
@@ -379,17 +379,17 @@ void press_button1(void)
     if (r==1){
         servo.SetDegree(redangle);
         move_forward(25,1);
-        move_forward(25,-1);
+        move_forward(-25,1);
     }
     else if(w==1){
         servo.SetDegree(whiteangle);
         move_forward(25,1);
-        move_forward(25,-1);
+        move_forward(-25,1);
     }
     else if (b==1){
         servo.SetDegree(blueangle);
         move_forward(25,1);
-        move_forward(25,-1);
+        move_forward(-25,1);
     }
     else{
         LCD.WriteLine("ERROR1");
@@ -403,17 +403,17 @@ void press_button2(void)
     if (r==2){
         servo.SetDegree(redangle);
         move_forward(25,1);
-        move_forward(25,-1);
+        move_forward(-25,1);
     }
     else if(w==2){
         servo.SetDegree(whiteangle);
         move_forward(25,1);
-        move_forward(25,-1);
+        move_forward(-25,1);
     }
     else if (b==2){
         servo.SetDegree(blueangle);
         move_forward(25,1);
-        move_forward(25,-1);
+        move_forward(-25,1);
     }
     else{
         LCD.WriteLine("ERROR2");
@@ -427,17 +427,17 @@ void press_button3(void)
     if (r==3){
         servo.SetDegree(redangle);
         move_forward(25,1);
-        move_forward(25,-1);
+        move_forward(-25,1);
     }
     else if(w==3){
         servo.SetDegree(whiteangle);
         move_forward(25,1);
-        move_forward(25,-1);
+        move_forward(-25,1);
     }
     else if (b==3){
         servo.SetDegree(blueangle);
         move_forward(25,1);
-        move_forward(25,-1);
+        move_forward(-25,1);
     }
     else{
         LCD.WriteLine("ERROR3");
@@ -644,6 +644,7 @@ void crank(void)
     {
         //the light color is blue
         //set servo motor accordingly
+        
     }
     else if (v<0.75)
     {
