@@ -657,7 +657,7 @@ void crank(void)
     if (v>0.75)
     {
         //the light color is blue
-        //set servo motor accordingly
+        //turn motor counterclockwise
         servo.SetDegree(0);
         move_forward(10, 1);
         servo.SetDegree(180);
@@ -669,7 +669,14 @@ void crank(void)
     else if (v<0.75)
     {
         //light color is red
-        //set servo in opposite direction
+        //turn motor clockwise
+        servo.SetDegree(180);
+        move_forward(10, 1);
+        servo.SetDegree(0);
+        move_forward(-10,1);
+        servo.SetDegree(180);
+        move_forward(10,1);
+        servo.SetDegree(0);
     }
 }//end crank function
 
