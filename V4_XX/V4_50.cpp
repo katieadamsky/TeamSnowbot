@@ -60,6 +60,7 @@ void start_at_light(void)
         v=cds.Value();
         LCD.WriteLine(v);
         Sleep(10);
+        LCD.Clear();
     }
     Sleep(10);
 }
@@ -107,7 +108,24 @@ void turn_left(int percent, float distance) //using encoders
     //Turn off motors
     right_motor.Stop();
     left_motor.Stop();
-    }//end turn left function
+}//end turn left function
+
+void turn_left_backwards(int percent, float distance)
+{
+    encode = distance * counts_per_rotation;
+    //Reset encoder counts
+    right_encoder.ResetCounts();
+    left_encoder.ResetCounts();
+    //set both motors to desired percent
+    right_motor.SetPercent(percent);
+    left_motor.SetPercent(percent);
+    while ((left_encoder.Counts()+right_encoder.Counts())/2<encode)
+    {
+    }
+    //Turn off motors
+    right_motor.Stop();
+    left_motor.Stop();
+}
 
 void turn_right(int percent, int distance) //using encoders
 {
@@ -119,6 +137,26 @@ void turn_right(int percent, int distance) //using encoders
     //Set both motors to desired percent
     right_motor.SetPercent(percent);
     left_motor.SetPercent(percent);
+    //While the average of the left and right encoder are less than counts,
+    //keep running motors
+    while ((left_encoder.Counts()+right_encoder.Counts())/2<encode)
+    {
+    }
+    //Turn off motors
+    right_motor.Stop();
+    left_motor.Stop();
+}//end turn right function
+
+void turn_right_backwards(int percent, float distance)
+{
+    //powers the motors the specified percent and distance in a right turn
+    encode = distance * counts_per_rotation;
+    //Reset encoder counts
+    right_encoder.ResetCounts();
+    left_encoder.ResetCounts();
+    //Set both motors to desired percent
+    right_motor.SetPercent(-percent);
+    left_motor.SetPercent(-percent);
     //While the average of the left and right encoder are less than counts,
     //keep running motors
     while ((left_encoder.Counts()+right_encoder.Counts())/2<encode)
@@ -395,9 +433,9 @@ void position_to_buttons(void) //function to find position needed for buttons
 void position_to_buttons_final(void)
 {
     //begins with the robot at the crank rather than the top of the ramp
-    move_forward(-25,4); //move away from crank
+    move_forward(-25,6); //move away from crank
     check_y_plus(44.9); //needs to be determined experimentally, just an approximation
-    turn_right(25, 7.5); //turn on a 45 degree angle toward buttons
+    turn_left(-25, 7.5); //turn on a 45 degree angle toward buttons
     check_heading(34.199);//correct to avoid snow
     move_forward(25,7);
     check_heading(50.199);//correct to avoid crank
@@ -648,7 +686,7 @@ void move_up_ramp(void)
 void position_to_crank(void)
 {
     //move away from ramp
-    move_forward(25, 10);
+    move_forward(30, 10);
     check_heading(0.00);
     check_y_plus(56.1);
 }//end position_to_crank
@@ -656,10 +694,10 @@ void position_to_crank(void)
 void position_to_crank_final(void)
 {
     //just like original, except the robot is facing backwards, and has to turn around
-    move_forward(-25,10);
+    move_forward(-30,10);
     //attempt a three point turn
-    turn_right(25,5);
-    turn_left(-25,5);
+    turn_right(30,5);
+    turn_right_backwards(30, 5);
     check_heading(0.00);
     check_y_plus(56.1);
 }
@@ -681,7 +719,7 @@ void crank(void)
 {
     float v;
     v=cds.Value();
-    if (v>0.75)
+    if (v>0.65 && v<=1.2)
     {
         //the light color is blue
         //turn motor counterclockwise
@@ -693,7 +731,7 @@ void crank(void)
         move_forward(10,1);
         servo.SetDegree(180);
     }
-    else if (v<0.75)
+    else if (v<0.65)
     {
         //light color is red
         //turn motor clockwise
@@ -704,6 +742,10 @@ void crank(void)
         servo.SetDegree(180);
         move_forward(10,1);
         servo.SetDegree(0);
+    }
+    else if (v>1.2)
+    {
+        LCD.WriteLine("light not found!");
     }
 }//end crank function
 
@@ -814,7 +856,7 @@ void find_top_of_ramp(void)
 int main(void)
 {
     //final order for competition
-    saltservo.SetDegree(startangle);
+    /*saltservo.SetDegree(startangle);
     RPS.InitializeMenu();
     start_at_light();
     move_to_saltbag();
@@ -825,6 +867,7 @@ int main(void)
     position_to_buttons();
     press_buttons();
     move_to_garage();
-    deposit_salt();
+    deposit_salt();*/
+    crank();
 }
 
