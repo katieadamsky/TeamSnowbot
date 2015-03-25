@@ -764,14 +764,6 @@ void move_up_ramp_original(void)//starts at light and drives to crank
 
 
 
-/************FUN STUFF***********************************************************************/
-
-void final_countdown(void)
-{
-    //plays the final countdown while waiting for the light to start
-    
-}
-
 /************OIL SWITCH FUNCTIONS****************/
 
 void move_down_ramp(void)
