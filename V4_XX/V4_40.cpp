@@ -1,4 +1,4 @@
-/*Performance Test 5: Touching the Crank
+/*Performance Test 5: Turning the Crank
 Written by Katie Adamsky
 RJF 8:00 Team B6*/
 
@@ -763,14 +763,55 @@ void move_up_ramp_original(void)//starts at light and drives to crank
 
 
 
+/************FUN STUFF***********************************************************************/
+
+
+
+/************OIL SWITCH FUNCTIONS****************/
+
+void move_down_ramp(void)
+{
+    //assuming robot is starting at the top of the ramp
+    check_y_plus(40.199);
+    move_forward(15,10);//drives slowly down ramp
+    //position to oil switch
+    turn_right(25, 2.5);
+    //all of the ofllowing are approximations and need testing
+    check_heading(120.0);
+    move_forward(30, 31);
+}
+
+void toggle_switch(void);
+{
+    //if oildirec=0, toggle switch to the right
+    //if oildirec=1, toggle to the left
+}
+
+void find_top_of_ramp(void)
+{
+    //this is just a possibility
+    //only work on this time permitting
+    //compare rps coordinates to coordinates at top of ramp, and move accordingly
+}
+
+
+
 /******MAIN*****/
 
 int main(void)
 {
-    RPS.InitializeMenu();
+    //final order for competition
     saltservo.SetDegree(startangle);
+    RPS.InitializeMenu();
+    start_at_light();
     move_to_saltbag();
     scoop();
-
+    move_up_ramp();
+    position_to_crank();
+    crank();
+    position_to_buttons();
+    press_buttons();
+    move_to_garage();
+    deposit_salt();
 }
 
