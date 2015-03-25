@@ -391,6 +391,23 @@ void position_to_buttons(void) //function to find position needed for buttons
     move_forward(-10,3);//back up a little so you have room to move forward and press them
 }
 
+void position_to_buttons_final(void)
+{
+    //begins with the robot at the crank rather than the top of the ramp
+    move_forward(-25,4); //move away from crank
+    check_y_minus(44.9); //needs to be determined experimentally, just an approximation
+    turn_right(25, 7.5); //turn on a 45 degree angle toward buttons
+    check_heading(34.199);//correct to avoid snow
+    move_forward(15,7);
+    check_heading(50.199);//correct to avoid crank
+    move_forward(25,2);
+    //from here, use RPS to precisely position to the buttons
+    check_y_plus(62.9);
+    check_x_minus(14.9);
+    move_forward(-10,3);//back up a little for optimum button pressing distance
+    
+}
+
 void press_button1(void)
 {
     //determines which of the three buttons has the value of 1, sets the servo to the corresponding angle
@@ -602,15 +619,12 @@ void deposit_salt()
 void move_up_ramp(void)
 {
     LCD.Clear();
-
-//robot starts at (25.4, 10.599, heading 37.5)
     write_coordinates();
-    //first it needs to turn itself back around
-    move_forward(10,1);
-    turn_left(25,8);
-    check_heading(180);
-    move_forward(-25, 2);
 
+    move_forward(10,1);
+    turn_left(-25,8);
+    move_forward(-25,2);
+    check_heading(180);
 
 //move to bottom of ramp
     write_coordinates();
@@ -637,6 +651,17 @@ void position_to_crank(void)
     check_heading(0.00);
     check_y_plus(56.1);
 }//end position_to_crank
+
+void position_to_crank_final(void)
+{
+    //just like original, except the robot is facing backwards, and has to turn around
+    move_forward(-25,10);
+    //attempt a three point turn
+    turn_right(25,5);
+    turn_left(-25,5);
+    check_heading(0.00);
+    check_y_plus(56.1);
+}
 
 int checkcds(void)
 {
