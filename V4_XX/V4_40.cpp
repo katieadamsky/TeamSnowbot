@@ -8,6 +8,7 @@ RJF 8:00 Team B6*/
 #include <FEHMotor.h>
 #include <FEHRPS.h>
 #include <FEHServo.h>
+#include <FEHBuzzer.h>
 
 //Declarations for encoders & motors
 ButtonBoard buttons(FEHIO::Bank3);
@@ -765,7 +766,11 @@ void move_up_ramp_original(void)//starts at light and drives to crank
 
 /************FUN STUFF***********************************************************************/
 
-
+void final_countdown(void)
+{
+    //plays the final countdown while waiting for the light to start
+    
+}
 
 /************OIL SWITCH FUNCTIONS****************/
 
