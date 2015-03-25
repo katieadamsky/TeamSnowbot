@@ -9,16 +9,20 @@
 int main (void)
 {
   Buzzer.Tone(392);
-  Sleep(500);
+  Sleep(400);
+  Buzzer.Tone(49);
+  Sleep(100);
   Buzzer.Tone(392);
-  Sleep(500);
+  Sleep(400);
+  Buzzer.Tone(49);
+  Sleep(100);
   Buzzer.Tone(392);
   Sleep(500);
   Buzzer.Tone(311);
   Sleep(375);
   Buzzer.Tone(466);
   Sleep(125);
-  
+
   Buzzer.Tone(392);
   Sleep(500);
   Buzzer.Tone(311);
@@ -27,40 +31,46 @@ int main (void)
   Sleep(125);
   Buzzer.Tone(392);
   Sleep(1000);
-  
+
   Buzzer.Tone(587);
-  Sleep(500);
+  Sleep(400);
+  Buzzer.Tone(37);
+  Sleep(100);
   Buzzer.Tone(587);
-  Sleep(500);
+  Sleep(400);
+  Buzzer.Tone(37);
+  Sleep(100);
   Buzzer.Tone(587);
   Sleep(500);
   Buzzer.Tone(622);
   Sleep(375);
   Buzzer.Tone(466);
   Sleep(125);
-  
+
   Buzzer.Tone(370);
   Sleep(500);
   Buzzer.Tone(311);
   Sleep(375);
   Buzzer.Tone(466);
   Sleep(125);
-  Buzzer.Tone(370);
+  Buzzer.Tone(392);
   Sleep(1000);
-  
+
   Buzzer.Tone(784);
   Sleep(500);
   Buzzer.Tone(392);
-  Sleep(375);
+  Sleep(275);
+  Buzzer.Tone(233);
+  Sleep(100);
   Buzzer.Tone(392);
-  Sleep(375);
+  Sleep(125);
   Buzzer.Tone(784);
   Sleep(500);
   Buzzer.Tone(740);
   Sleep(375);
   Buzzer.Tone(698);
   Sleep(125);
-  
+
   Buzzer.Tone(659);
   Sleep(125);
   Buzzer.Tone(622);
@@ -69,7 +79,7 @@ int main (void)
   Sleep(250);
   Buzzer.Tone(139);
   Sleep(250);
-  
+
   Buzzer.Tone(415);
   Sleep(250);
   Buzzer.Tone(554);
@@ -78,7 +88,7 @@ int main (void)
   Sleep(375);
   Buzzer.Tone(466);
   Sleep(125);
-  
+
   Buzzer.Tone(466);
   Sleep(125);
   Buzzer.Tone(440);
@@ -95,7 +105,7 @@ int main (void)
   Sleep(375);
   Buzzer.Tone(466);
   Sleep(125);
-  
+
   Buzzer.Tone(392);
   Sleep(500);
   Buzzer.Tone(311);
