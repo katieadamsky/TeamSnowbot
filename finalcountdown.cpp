@@ -1,4 +1,4 @@
-#include <FEHBuzzer.cpp>
+#include <FEHBuzzer.h>
 #include <FEHLCD.h>
 #include <FEHIO.h>
 #include <FEHUtility.h>
