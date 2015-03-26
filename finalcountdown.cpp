@@ -1,4 +1,4 @@
-#include <FEHBuzzer.cpp>
+#include <FEHBuzzer.h>
 #include <FEHLCD.h>
 #include <FEHIO.h>
 #include <FEHUtility.h>
@@ -8,103 +8,110 @@
 
 int main (void)
 {
-  
-  //measure 1
-  Tone(370);//Gf
-  Sleep(750);
-  Tone(466);//Bf
-  Sleep(125);
-  Tone(415);//Af
-  Sleep(125);
-  Tone(466);//bf
+  Buzzer.Tone(392);
+  Sleep(400);
+  Buzzer.Tone(49);
+  Sleep(100);
+  Buzzer.Tone(392);
+  Sleep(400);
+  Buzzer.Tone(49);
+  Sleep(100);
+  Buzzer.Tone(392);
   Sleep(500);
-  Tone(311);
-  Sleep(500);//ef
-  
-  //measure 2
-  Tone(247);//Cf
-  Sleep(750);
-  Tone(494);//high cf
+  Buzzer.Tone(311);
+  Sleep(375);
+  Buzzer.Tone(466);
   Sleep(125);
-  Tone(466);//bf
-  Sleep(125);
-  Tone(494);//high cf
-  Sleep(250);
-  Tone(466);//bf
-  Sleep(250);
-  Tone(415);//af
+
+  Buzzer.Tone(392);
   Sleep(500);
-  
-  //measure 3
-  Tone(415);
-  Sleep(750);
-  Tone(494);
+  Buzzer.Tone(311);
+  Sleep(375);
+  Buzzer.Tone(466);
   Sleep(125);
-  Tone(466);
-  Sleep(125);
-  Tone(494);
+  Buzzer.Tone(392);
+  Sleep(1000);
+
+  Buzzer.Tone(587);
+  Sleep(400);
+  Buzzer.Tone(37);
+  Sleep(100);
+  Buzzer.Tone(587);
+  Sleep(400);
+  Buzzer.Tone(37);
+  Sleep(100);
+  Buzzer.Tone(587);
   Sleep(500);
-  Tone(311);
+  Buzzer.Tone(622);
+  Sleep(375);
+  Buzzer.Tone(466);
+  Sleep(125);
+
+  Buzzer.Tone(370);
   Sleep(500);
-  
-  //measure 4
-  Tone(349);//f
-  Sleep(750);
-  Tone(415);//af
+  Buzzer.Tone(311);
+  Sleep(375);
+  Buzzer.Tone(466);
   Sleep(125);
-  Tone(370);//gf
-  Sleep(125);
-  Tone(415);//af
-  Sleep(250);
-  Tone(370);
-  Sleep(250);
-  Tone(349);
-  Sleep(250);
-  Tone(415);
-  Sleep(250);
-  
-  //measure 5
-  Tone(370);
-  Sleep(750);
-  Tone(349);
-  Sleep(125);
-  Tone(370);
-  Sleep(125);
-  Tone(415);
-  Sleep(750);
-  Tone(370);
-  Sleep(125);
-  Tone(415);
-  Sleep(125);
-  
-  //measure 6
-  Tone(466);
-  Sleep(250);
-  Tone(415);
-  Sleep(250);
-  Tone(370);
-  Sleep(250);
-  Tone(349);
-  Sleep(250);
-  Tone(311);
+  Buzzer.Tone(392);
+  Sleep(1000);
+
+  Buzzer.Tone(784);
   Sleep(500);
-  Tone(494);
+  Buzzer.Tone(392);
+  Sleep(275);
+  Buzzer.Tone(233);
+  Sleep(100);
+  Buzzer.Tone(392);
+  Sleep(125);
+  Buzzer.Tone(784);
   Sleep(500);
-  
-  //measure 7
-  Tone(466);
-  Sleep(1500);
-  Tone(466);
+  Buzzer.Tone(740);
+  Sleep(375);
+  Buzzer.Tone(698);
   Sleep(125);
-  Tone(494);
+
+  Buzzer.Tone(659);
   Sleep(125);
-  Tone(466);
+  Buzzer.Tone(622);
   Sleep(125);
-  Tone(415);
+  Buzzer.Tone(659);
+  Sleep(250);
+  Buzzer.Tone(139);
+  Sleep(250);
+
+  Buzzer.Tone(415);
+  Sleep(250);
+  Buzzer.Tone(554);
+  Sleep(500);
+  Buzzer.Tone(523);
+  Sleep(375);
+  Buzzer.Tone(466);
   Sleep(125);
-  
-  //measure 8
-  Tone(466);
-  Sleep(4000);
-  
+
+  Buzzer.Tone(466);
+  Sleep(125);
+  Buzzer.Tone(440);
+  Sleep(125);
+  Buzzer.Tone(466);
+  Sleep(250);
+  Buzzer.Tone(156);
+  Sleep(250);
+  Buzzer.Tone(311);
+  Sleep(250);
+  Buzzer.Tone(370);
+  Sleep(500);
+  Buzzer.Tone(311);
+  Sleep(375);
+  Buzzer.Tone(466);
+  Sleep(125);
+
+  Buzzer.Tone(392);
+  Sleep(500);
+  Buzzer.Tone(311);
+  Sleep(375);
+  Buzzer.Tone(466);
+  Sleep(125);
+  Buzzer.Tone(392);
+  Sleep(1000);
 }
