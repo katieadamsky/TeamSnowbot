@@ -29,6 +29,11 @@ DigitalInputPin bump(FEHIO::P0_4); //bump switch to determine if salt bag is in 
 #define normal_power 25
 #define half_power 50
 
+//values for calibrating RPS
+//COME BACK AND DETERMINE THESE EXPERIMENTALLY
+#define startx 18
+#define starty 18
+
 //values for button-pressing functions
 #define servomin 523
 #define servomax 2380
@@ -216,10 +221,10 @@ void check_x_plus(float x_coordinate)
 {
     //aligns robot with desired RPS coordinate in the +x direction
     //check whether the robot is within an acceptable range
-    while(RPS.X() < x_coordinate - 1 || RPS.X() > x_coordinate + 1)
+    while(RPS.X() < x_coordinate+x - 1 || RPS.X() > x_coordinate+x + 1)
     {
         Sleep(75);
-        if(RPS.X() > x_coordinate)
+        if(RPS.X() > x_coordinate+x)
         {
             //pulse the motors for a short duration in the correct direction
             left_motor.SetPercent(-15);
@@ -228,7 +233,7 @@ void check_x_plus(float x_coordinate)
             left_motor.Stop();
             right_motor.Stop();
         }
-        else if(RPS.X() < x_coordinate)
+        else if(RPS.X() < x_coordinate+x)
         {
             //pulse the motors for a short duration in the correct direction
             left_motor.SetPercent(15);
@@ -243,10 +248,10 @@ void check_x_plus(float x_coordinate)
 void check_x_minus(float x_coordinate)
 {
     //aligns robot with desired RPS coordinate in -x direction
-    while(RPS.X() < x_coordinate - 1 || RPS.X() > x_coordinate + 1)
+    while(RPS.X() < x_coordinate+x - 1 || RPS.X() > x_coordinate+x + 1)
     {
         Sleep(75);
-        if(RPS.X() > x_coordinate)
+        if(RPS.X() > x_coordinate+x)
         {
             //pulse the motors for a short duration in the correct direction
             left_motor.SetPercent(15);
@@ -255,7 +260,7 @@ void check_x_minus(float x_coordinate)
             left_motor.Stop();
             right_motor.Stop();
         }
-        else if(RPS.X() < x_coordinate)
+        else if(RPS.X() < x_coordinate+x)
         {
             //pulse the motors for a short duration in the correct direction
             left_motor.SetPercent(-15);
@@ -272,11 +277,11 @@ void check_y_minus(float y_coordinate)
     //aligns robot with desired RPS coordinate in the -y direction
     y=RPS.Y();
     //check whether the robot is within an acceptable range
-    while(y < y_coordinate - 1 || y > y_coordinate + 1)
+    while(y < y_coordinate+y - 1 || y > y_coordinate+y + 1)
     {
         Sleep(75);
         y=RPS.Y();
-        if(y > y_coordinate)
+        if(y > y_coordinate+y)
         {
             //pulse the motors for a short duration in the correct direction
             left_motor.SetPercent(15);
@@ -285,7 +290,7 @@ void check_y_minus(float y_coordinate)
             left_motor.Stop();
             right_motor.Stop();
         }
-        else if(y < y_coordinate)
+        else if(y < y_coordinate+y)
         {
             //pulse the motors for a short duration in the correct direction
             left_motor.SetPercent(-15);
@@ -301,10 +306,10 @@ void check_y_plus(float y_coordinate)
 {
     //aligns robot with desired RPS coordinate in the +y direction
     //check whether the robot is within an acceptable range
-    while(RPS.Y() < y_coordinate - 1 || RPS.Y() > y_coordinate + 1)
+    while(RPS.Y() < y_coordinate+y - 1 || RPS.Y() > y_coordinate+y + 1)
     {
         Sleep(50);
-        if(RPS.Y() > y_coordinate)
+        if(RPS.Y() > y_coordinate+y)
         {
             //pulse the motors for a short duration in the correct direction
             left_motor.SetPercent(-15);
@@ -313,7 +318,7 @@ void check_y_plus(float y_coordinate)
             left_motor.Stop();
             right_motor.Stop();
         }
-        else if(RPS.Y() < y_coordinate)
+        else if(RPS.Y() < y_coordinate+y)
         {
             //pulse the motors for a short duration in the correct direction
             left_motor.SetPercent(15);
@@ -407,11 +412,24 @@ void check_heading(float heading)
 
 }//end check heading function
 
-float RPS.Calibrate(void)
+float calibrate_x(void)
 {
-
+    //compares RPS readings at the start point to the ideal RPS readings, and finds the difference
+    float x=0;
+    x=RPS.X()-startx;
+    LCD.WriteLine("In the x direction, the RPS is off by ");
+    LCD.Write(x);
+    return x;
 }
 
+float calibrate_y(void)
+{
+    float y=0;
+    y=RPS.Y-starty;
+    LCD.WriteLine("In the y direction, the RPS is off by ");
+    LCD.Write(y);
+    return y;
+}
 
 
 
@@ -748,6 +766,8 @@ int main(void)
     servo.SetDegree(0);
     saltservo.SetDegree(startangle);
     RPS.InitializeMenu();
+    calibrate_x();
+    calibrate_y();
     start_at_light();
     move_to_saltbag();
     scoop();
