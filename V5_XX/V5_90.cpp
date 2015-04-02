@@ -31,8 +31,8 @@ DigitalInputPin bump(FEHIO::P0_4); //bump switch to determine if salt bag is in 
 
 //values for calibrating RPS
 //COME BACK AND DETERMINE THESE EXPERIMENTALLY
-#define startx 18
-#define starty 18
+#define startx 17.6
+#define starty 29.4
 
 //values for button-pressing functions
 #define servomin 523
