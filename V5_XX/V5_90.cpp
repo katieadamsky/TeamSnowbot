@@ -425,7 +425,7 @@ float calibrate_x(void)
 float calibrate_y(void)
 {
     float y=0;
-    y=RPS.Y-starty;
+    y=RPS.Y()-starty;
     LCD.WriteLine("In the y direction, the RPS is off by ");
     LCD.Write(y);
     return y;
