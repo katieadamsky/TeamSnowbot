@@ -708,6 +708,7 @@ void crank(void)
      v=cds.Value();
      int find=0;
      Sleep(100);
+     //use cds cell reading to determine light color, and set direction
          while (direction==0)
          {
              v=cds.Value();
@@ -735,9 +736,12 @@ void crank(void)
     int degree2=180;
     char course;
     move_forward(-20, 1);
+    //determine which course the robot is on
     course=RPS.CurrentRegionLetter();
     switch (course)
     {
+        //since the crank is easier to turn on some course,s set the number of rotations
+        //based on which course the robot is on.
         case 'A':
         case 'B':
         case 'C':
@@ -756,6 +760,7 @@ void crank(void)
     }
     while (turned<turnedcount)
     {
+        //turn the crank the specified number of times in the specified direction
     if (direction==1)
     {
         //the light color is blue
