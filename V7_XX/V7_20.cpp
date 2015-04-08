@@ -748,8 +748,8 @@ void crank(void)
             turnedcount=4;
             break;
         case 'F':
-        case 'G':
-        case 'H':
+        case 'G': //default
+        case 'H': //default
         default:
             turnedcount=5;
             break;
