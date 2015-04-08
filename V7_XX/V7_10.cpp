@@ -1,4 +1,4 @@
-/*Individual Competition
+/*Final Competition
 Written by Katie Adamsky
 RJF 8:00 Team B6*/
 
